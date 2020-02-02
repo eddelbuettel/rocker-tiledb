@@ -20,13 +20,15 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 
 RUN cd /home/docker \
-    && git clone --single-branch --branch release-1.7.4 https://github.com/TileDB-Inc/TileDB.git \
-    && cd TileDB \
+    && git clone --single-branch --branch release-1.7.4 https://github.com/TileDB-Inc/TileDB.git tiledb \
+    && cd tiledb \
     && mkdir build \
     && cd build \
     && ../bootstrap --prefix=/usr/local --enable-s3 --enable-serialization \
     && make -j 8 \
     && make -C tiledb install \
-    && ldconfig
+    && ldconfig \
+    && cd /home/docker \
+    && rm -rf tiledb
 
 CMD ["bash"]
