@@ -11,6 +11,9 @@ LABEL org.label-schema.license="GPL-2.0" \
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     cmake \
     git \
+    liblz4-dev \
+    libssl-dev \
+    libzstd-dev \
     r-cran-data.table \
     r-cran-rcpp \
     r-cran-testthat \
@@ -24,13 +27,13 @@ RUN cd /home/docker \
     && cd tiledb \
     && mkdir build \
     && cd build \
-    && ../bootstrap --prefix=/usr/local --enable-serialization \
+    && ../bootstrap --prefix=/usr/local --disable-tbb \
     && make -j 8 \
     && make -C tiledb install \
     && ldconfig \
     && cd /home/docker \
     && rm -rf tiledb
 
-## "parked" config: --enable-s3
+## "parked" config: --enable-s3 --enable-serialization
 
 CMD ["bash"]
