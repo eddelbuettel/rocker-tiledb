@@ -1,0 +1,22 @@
+diff --git a/tiledb/sm/filesystem/s3.cc b/tiledb/sm/filesystem/s3.cc
+index 30000b98..4275ab68 100644
+--- a/tiledb/sm/filesystem/s3.cc
++++ b/tiledb/sm/filesystem/s3.cc
+@@ -1036,7 +1036,7 @@ Status S3::wait_for_object_to_propagate(
+   }
+ 
+   return LOG_STATUS(Status::S3Error(
+-      "Failed waiting for object " + object_key + " to be created."));
++        "Failed waiting for object " /*+ object_key +*/ " to be created."));
+ }
+ 
+ Status S3::wait_for_object_to_be_deleted(
+@@ -1056,7 +1056,7 @@ Status S3::wait_for_object_to_be_deleted(
+   }
+ 
+   return LOG_STATUS(Status::S3Error(
+-      "Failed waiting for object " + object_key + " to be deleted."));
++        "Failed waiting for object " /*+ object_key +*/ " to be deleted."));
+ }
+ 
+ Status S3::wait_for_bucket_to_be_created(const URI& bucket_uri) const {
