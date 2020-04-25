@@ -28,13 +28,13 @@ RUN cd /home/docker \
     && cd tiledb \
     && mkdir build \
     && cd build \
-    && ../bootstrap --prefix=/usr/local \
+    && ../bootstrap --prefix=/usr/local --disable-tbb \
     && make -j 8 \
     && make -C tiledb install \
     && ldconfig \
     && cd /home/docker \
     && rm -rf tiledb
 
-## "parked" config: --enable-s3
+## "parked" config: --enable-s3 --enable-serialization
 
 CMD ["bash"]
