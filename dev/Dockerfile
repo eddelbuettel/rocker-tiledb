@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-rcpp \
     r-cran-testthat \
     && apt-get clean \
-    install.r tinytest nanotime
+    && install.r tinytest nanotime
     
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 
