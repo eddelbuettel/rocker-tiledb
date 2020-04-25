@@ -28,7 +28,7 @@ RUN cd /home/docker \
     && cd tiledb \
     && mkdir build \
     && cd build \
-    && ../bootstrap --prefix=/usr/local --enable-serialization \
+    && ../bootstrap --prefix=/usr/local \
     && make -j 8 \
     && make -C tiledb install \
     && ldconfig \
