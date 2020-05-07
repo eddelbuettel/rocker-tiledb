@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     libcurl4-openssl-dev \
     liblz4-dev \
     libssl-dev \
+    libtbb-dev \
     libzstd-dev \
     && apt-get clean \
     && install.r bit64 data.table nanotime Rcpp testthat tinytest
