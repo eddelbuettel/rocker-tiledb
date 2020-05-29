@@ -24,13 +24,16 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     libssl-dev \
     libtbb-dev \
     libzstd-dev \
+    r-cran-bit64 \
+    r-cran-data.table \
+    r-cran-knitr \
+    r-cran-rcpp \
+    r-cran-rmarkdown \
+    r-cran-testthat \
+    r-cran-zoo \
     && apt-get clean \
-    && install.r bit64 data.table nanotime Rcpp testthat tinytest
-
-#    r-cran-bit64 \
-#    r-cran-data.table \
-#    r-cran-rcpp \
-#    r-cran-testthat \
+    && install.r tinytest nanotime BiocManager \
+    && r -e 'BiocManager::install("BiocStyle")'
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 
