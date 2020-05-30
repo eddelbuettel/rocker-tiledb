@@ -8,7 +8,7 @@ LABEL org.label-schema.license="MIT" \
       org.label-schema.vendor="Local Build, not a Rocker or TileDB product" \
       maintainer="Dirk Eddelbuettel <edd@debian.org>"
 
-#COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
+COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     cmake \
