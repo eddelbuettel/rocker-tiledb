@@ -20,6 +20,7 @@ RUN cd /usr/local/bin/ \
 RUN installBioc.r \
     base64enc \
     BiocGenerics \
+    BiocParallel \
     DelayedArray \
     IRanges \
     S4Vectors
