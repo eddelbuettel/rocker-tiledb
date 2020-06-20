@@ -15,6 +15,9 @@ RUN cd /usr/local/bin/ \
     && ln -sf /usr/lib/R/site-library/littler/examples/installBioc.r . \
     && cd -
 
+## For now re-install the tiledb package from this branch needed for TileDBArray
+RUN installGithub.r TileDB-Inc/TileDB-R@feature/select_ranges
+
 ## Install what is needed for TileDBArray
 ## (here base64enc is CRAN, rest BioC; and matrixStats added as a dependency)
 RUN installBioc.r \
