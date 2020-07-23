@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     libtbb-dev \
     libzstd-dev \
     r-cran-bit64 \
+    r-cran-bookdown \
     r-cran-curl \
     r-cran-data.table \
     r-cran-knitr \
@@ -33,7 +34,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-tinytest \
     r-cran-zoo \
     && apt-get clean \
-    && install.r tinytest nanotime BiocManager \
+    && install.r nanotime BiocManager \
     && installBioc.r BiocStyle
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false

@@ -26,12 +26,14 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     libtbb-dev \
     libzstd-dev \
     r-cran-bit64 \
+    r-cran-bookdown \
     r-cran-curl \
     r-cran-data.table \
     r-cran-knitr \
     r-cran-rcpp \
     r-cran-rmarkdown \
     r-cran-testthat \
+    r-cran-tinytest \
     r-cran-zoo \
     && apt-get clean \
     && install.r tinytest nanotime BiocManager \
