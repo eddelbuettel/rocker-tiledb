@@ -11,6 +11,7 @@ LABEL org.label-schema.license="MIT" \
 COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
+    catch \
     cmake \
     git \
     libaws-c-common-dev \

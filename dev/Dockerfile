@@ -13,6 +13,7 @@ COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
 #COPY 0002-s3-string-fix.patch /tmp
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
+    catch \
     cmake \
     git \
     libaws-c-common-dev \
