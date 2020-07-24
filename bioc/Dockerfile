@@ -1,4 +1,4 @@
-# Dockerfile for TileDB and R
+# Dockerfile for TileDB and R 				Emacs make this a -*- mode: makefile; -*-
 
 # Based on Rocker r-base is Debian testing, hence "current" and reasonably complete
 # Contains all that is needed to test 'tiledb', plus tiledb itself
@@ -16,7 +16,7 @@ RUN cd /usr/local/bin/ \
     && cd -
 
 ## For now re-install the tiledb package from this branch needed for TileDBArray
-RUN installGithub.r TileDB-Inc/TileDB-R@feature/select_ranges
+RUN installGithub.r TileDB-Inc/TileDB-R
 
 ## Install what is needed for TileDBArray
 ## (here base64enc is CRAN, rest BioC; and matrixStats added as a dependency)
