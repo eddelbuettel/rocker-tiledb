@@ -38,10 +38,14 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     && installBioc.r BiocStyle
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
+ENV VER 2.1.2
+##    && git clone --single-branch --branch release-2.1.2 https://github.com/TileDB-Inc/TileDB.git tiledb
 
 RUN cd /home/docker \
-    && git clone --single-branch --branch release-2.1.2 \
-		https://github.com/TileDB-Inc/TileDB.git tiledb \
+    && wget https://github.com/TileDB-Inc/TileDB/archive/${VER}.tar.gz \
+    && tar xaf ${VER}.tar.gz \
+    && rm ${VER}.tar.gz \
+    && mv TileDB-${VER} tiledb \
     && cd tiledb \
     && mkdir build \
     && cd build \
