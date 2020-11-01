@@ -8,6 +8,8 @@ LABEL org.label-schema.license="MIT" \
       org.label-schema.vendor="Local Build, not a Rocker or TileDB product" \
       maintainer="Dirk Eddelbuettel <edd@debian.org>"
 
-RUN install.r remotes && installGithub.r TileDB-Inc/TileDB-R
+## NB: Temporary change to use de/hilbert_tests instead of master branch
+# RUN install.r remotes && installGithub.r TileDB-Inc/TileDB-R
+RUN install.r remotes && installGithub.r TileDB-Inc/TileDB-R@de/hilbert_tests
 
 CMD ["bash"]
