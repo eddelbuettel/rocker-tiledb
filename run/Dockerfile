@@ -9,7 +9,6 @@ LABEL org.label-schema.license="MIT" \
       maintainer="Dirk Eddelbuettel <edd@debian.org>"
 
 ## NB: Temporary change to use de/hilbert_tests instead of master branch
-# RUN install.r remotes && installGithub.r TileDB-Inc/TileDB-R
-RUN install.r remotes && installGithub.r TileDB-Inc/TileDB-R@de/hilbert_tests
+RUN install.r remotes && installGithub.r TileDB-Inc/TileDB-R
 
 CMD ["bash"]

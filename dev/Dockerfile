@@ -41,11 +41,8 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 
-## NB: Temporary change to use sp/hilbert instead of dev branch
-##    && git clone --single-branch --branch dev https://github.com/TileDB-Inc/TileDB.git tiledb
-
 RUN cd /home/docker \
-    && git clone --single-branch --branch sp/hilbert https://github.com/TileDB-Inc/TileDB.git tiledb \
+    && git clone --single-branch --branch dev https://github.com/TileDB-Inc/TileDB.git tiledb \
     && cd tiledb \
     && mkdir build \
     && cd build \
