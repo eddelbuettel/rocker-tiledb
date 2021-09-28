@@ -2,8 +2,8 @@ name: docker
 
 on:
   push:
-  #schedule:
-  #- cron: "32 2 * * 1"
+  schedule:
+  - cron: "22 1 1 * *"
     
 jobs:
   docker:
@@ -34,5 +34,6 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
+        push: true
         context: ${{ matrix.tag }}
         tags: eddelbuettel/rocker-tiledb:${{ matrix.tag }}
