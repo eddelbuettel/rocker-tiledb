@@ -13,8 +13,8 @@ COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     catch \
-    cmake \
     git \
+    cmake \
     libaws-c-common-dev \
     libaws-c-event-stream-dev \
     libaws-checksums-dev \
@@ -30,13 +30,14 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-data.table \
     r-cran-knitr \
     r-cran-matrix \
+    r-cran-nanotime \
     r-cran-rcpp \
     r-cran-rmarkdown \
     r-cran-testthat \
     r-cran-tinytest \
     r-cran-zoo \
-    r-cran-nanotime \
     valgrind \
+    && apt install cmake=3.21.4-1 cmake-data=3.21.4-1 \
     && apt-get clean \
     && install.r minidown palmerpenguins nycflights13
 
