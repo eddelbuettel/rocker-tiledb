@@ -37,27 +37,8 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-tinytest \
     r-cran-zoo \
     valgrind \
-    && apt install cmake=3.21.4-1 cmake-data=3.21.4-1 \
+    && apt install -y --allow-downgrades cmake=3.21.4-1 cmake-data=3.21.4-1 \
     && apt-get clean \
     && install.r minidown palmerpenguins nycflights13
-
-ENV _R_CHECK_FORCE_SUGGESTS_ false
-ENV VER 2.5.2
-
-RUN cd /home/docker \
-    && wget https://github.com/TileDB-Inc/TileDB/archive/${VER}.tar.gz \
-    && tar xaf ${VER}.tar.gz \
-    && rm ${VER}.tar.gz \
-    && mv TileDB-${VER} tiledb \
-    && cd tiledb \
-    && mkdir build \
-    && cd build \
-    && export AWSSDK_ROOT_DIR=/usr \
-    && ../bootstrap --prefix=/usr/local --enable-s3 --enable-serialization \
-    && make -j 8 \
-    && make -C tiledb install \
-    && ldconfig \
-    && cd /home/docker \
-    && rm -rf tiledb
 
 CMD ["bash"]

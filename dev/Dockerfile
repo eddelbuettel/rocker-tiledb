@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-testthat \
     r-cran-tinytest \
     r-cran-zoo \
-    && apt install cmake=3.21.4-1 cmake-data=3.21.4-1 \
+    && apt install -y --allow-downgrades cmake=3.21.4-1 cmake-data=3.21.4-1 \
     && apt-get clean \
     && install.r minidown palmerpenguins nycflights13
 
