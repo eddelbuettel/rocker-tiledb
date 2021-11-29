@@ -30,14 +30,16 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-curl \
     r-cran-data.table \
     r-cran-knitr \
+    r-cran-matrix \
+    r-cran-nanotime \
     r-cran-rcpp \
     r-cran-rmarkdown \
     r-cran-testthat \
     r-cran-tinytest \
     r-cran-zoo \
+    && apt install cmake=3.21.4-1 cmake-data=3.21.4-1 \
     && apt-get clean \
-    && install.r tinytest nanotime BiocManager \
-    && installBioc.r BiocStyle
+    && install.r minidown palmerpenguins nycflights13
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 
