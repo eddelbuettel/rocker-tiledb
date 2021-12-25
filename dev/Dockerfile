@@ -20,8 +20,11 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     libaws-c-event-stream-dev \
     libaws-checksums-dev \
     libaws-sdk-cpp-only-s3-dev \
+    libcapnp-0.8.0=0.8.0-1 \
+    libcapnp-dev=0.8.0-1 \
     libcurl4-openssl-dev \
     liblz4-dev \
+    libspdlog-dev \
     libssl-dev \
     libtbb-dev \
     libzstd-dev \
