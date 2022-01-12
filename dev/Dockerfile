@@ -13,20 +13,18 @@ COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
 #COPY 0002-s3-string-fix.patch /tmp
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
-    catch \
+    catch2 \
     cmake \
     git \
     libaws-c-common-dev \
     libaws-c-event-stream-dev \
     libaws-checksums-dev \
     libaws-sdk-cpp-only-s3-dev \
-    libcapnp-0.8.0=0.8.0-1 \
-    libcapnp-dev=0.8.0-1 \
+    libcapnp-dev (>= 0.8.0), \
     libcurl4-openssl-dev \
     liblz4-dev \
     libspdlog-dev \
     libssl-dev \
-    libtbb-dev \
     libzstd-dev \
     r-cran-bit64 \
     r-cran-bookdown \

@@ -12,7 +12,7 @@ LABEL org.opencontainers.image.licenses="MIT" \
 COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
-    catch \
+    catch2 \
     git \
     cmake \
     libaws-c-common-dev \
@@ -21,11 +21,9 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     libaws-sdk-cpp-only-s3-dev \
     libcurl4-openssl-dev \
     liblz4-dev \
-    libcapnp-0.8.0=0.8.0-1 \
-    libcapnp-dev=0.8.0-1 \
+    libcapnp-dev (>= 0.8.0-1) \
     libspdlog-dev \
     libssl-dev \
-    libtbb-dev \
     libzstd-dev \
     r-cran-bit64 \
     r-cran-bookdown \
