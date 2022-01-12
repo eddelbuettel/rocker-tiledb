@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     libaws-c-event-stream-dev \
     libaws-checksums-dev \
     libaws-sdk-cpp-only-s3-dev \
-    libcapnp-dev (>= 0.8.0), \
+    libcapnp-dev \
     libcurl4-openssl-dev \
     liblz4-dev \
     libspdlog-dev \
@@ -38,7 +38,6 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-tinytest \
     r-cran-zoo \
     valgrind \
-    && apt install -y --allow-downgrades cmake=3.21.4-1 cmake-data=3.21.4-1 \
     && apt-get clean \
     && install.r minidown palmerpenguins nycflights13
 
