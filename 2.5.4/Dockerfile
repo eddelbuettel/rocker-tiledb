@@ -39,7 +39,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-zoo \
     valgrind \
     && apt-get clean \
-    && install.r minidown palmerpenguins nycflights13
+    && install.r minidown palmerpenguins nycflights13 simplermarkdown
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 ENV VER 2.5.4

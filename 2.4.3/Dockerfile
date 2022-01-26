@@ -12,17 +12,18 @@ LABEL org.opencontainers.image.licenses="MIT" \
 COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
-    catch \
+    catch2 \
     cmake \
     git \
     libaws-c-common-dev \
     libaws-c-event-stream-dev \
     libaws-checksums-dev \
     libaws-sdk-cpp-only-s3-dev \
+    libcapnp-dev \
     libcurl4-openssl-dev \
     liblz4-dev \
+    libspdlog-dev \
     libssl-dev \
-    libtbb-dev \
     libzstd-dev \
     r-cran-bit64 \
     r-cran-bookdown \
@@ -37,7 +38,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-zoo \
     r-cran-nanotime \
     && apt-get clean \
-    && install.r minidown palmerpenguins nycflights13
+    && install.r minidown palmerpenguins nycflights13 simplermarkdown
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 ENV VER 2.4.3
