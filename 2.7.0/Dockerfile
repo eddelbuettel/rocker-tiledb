@@ -43,7 +43,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     && install.r minidown nycflights13 simplermarkdown
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
-ENV VER 2.7.0-rc1
+ENV VER 2.7.0
 
 RUN cd /home/docker \
     && wget https://github.com/TileDB-Inc/TileDB/archive/${VER}.tar.gz \
