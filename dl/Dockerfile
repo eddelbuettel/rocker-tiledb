@@ -9,6 +9,7 @@ LABEL org.label-schema.license="MIT" \
       maintainer="Dirk Eddelbuettel <edd@debian.org>"
 
 COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
+COPY Renviron.site /etc/R/
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     catch2 \
@@ -36,7 +37,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-tinytest \
     r-cran-zoo \
     && apt-get clean \
-    && install.r minidown palmerpenguins nycflights13 simplermarkdown
+    && install.r palmerpenguins nycflights13 simplermarkdown
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 

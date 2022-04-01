@@ -3,20 +3,19 @@
 # Rocker r-base is Debian testing, hence "current" and reasonably complete
 FROM r-base
 
-LABEL org.label-schema.license="MIT" \
-      org.label-schema.vcs-url="https://github.com/rocker-tiledb/" \
-      org.label-schema.vendor="Local Build, not a Rocker or TileDB product" \
-      maintainer="Dirk Eddelbuettel <edd@debian.org>"
+LABEL org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.source="https://github.com/rocker-tiledb/" \
+      org.opencontainers.image.vendor="Local Build, not a Rocker or TileDB product" \
+      org.opencontainers.image.authors="Dirk Eddelbuettel <edd@debian.org>"
+
 
 COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
-#COPY 0001-Add-option-to-use-AWS-SDK-for-S3-from-usr.patch /tmp
-#COPY 0002-s3-string-fix.patch /tmp
 COPY Renviron.site /etc/R/
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     catch2 \
-    cmake \
     git \
+    cmake \
     libaws-c-common-dev \
     libaws-c-event-stream-dev \
     libaws-checksums-dev \
@@ -34,6 +33,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-knitr \
     r-cran-matrix \
     r-cran-nanotime \
+    r-cran-palmerpenguins \
     r-cran-rcpp \
     r-cran-rmarkdown \
     r-cran-testthat \
@@ -41,12 +41,16 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-zoo \
     valgrind \
     && apt-get clean \
-    && install.r palmerpenguins nycflights13 simplermarkdown
+    && install.r nycflights13 simplermarkdown
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
+ENV VER 2.7.2
 
 RUN cd /home/docker \
-    && git clone --single-branch --branch dev https://github.com/TileDB-Inc/TileDB.git tiledb \
+    && wget https://github.com/TileDB-Inc/TileDB/archive/${VER}.tar.gz \
+    && tar xaf ${VER}.tar.gz \
+    && rm ${VER}.tar.gz \
+    && mv TileDB-${VER} tiledb \
     && cd tiledb \
     && mkdir build \
     && cd build \
