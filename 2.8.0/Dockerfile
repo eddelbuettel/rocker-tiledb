@@ -41,11 +41,14 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     valgrind \
     libv8-dev \
     && apt-get clean \
-    && install.r minidown nycflights13 simplermarkdown
+    && install.r nycflights13 simplermarkdown
 # libv8-dev can go out with minidown
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
-ENV VER 2.8.0-rc0
+#ENV VER release-2.8
+#    && git clone --single-branch --branch ${VER} https://github.com/TileDB-Inc/TileDB.git tiledb 
+ENV VER 2.8.0
+
 
 RUN cd /home/docker \
     && wget https://github.com/TileDB-Inc/TileDB/archive/${VER}.tar.gz \

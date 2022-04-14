@@ -11,7 +11,7 @@ LABEL org.label-schema.license="MIT" \
 COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
 #COPY 0001-Add-option-to-use-AWS-SDK-for-S3-from-usr.patch /tmp
 #COPY 0002-s3-string-fix.patch /tmp
-COPY Renviron.site /etc/R/
+#COPY Renviron.site /etc/R/
 
 RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     catch2 \
