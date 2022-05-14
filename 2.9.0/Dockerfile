@@ -45,17 +45,16 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
 # libv8-dev can go out with minidown
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
-ENV VER release-2.9
-#ENV VER 2.8.0
+#ENV VER release-2.9
+ENV VER 2.9.0
 
-#    && wget https://github.com/TileDB-Inc/TileDB/archive/${VER}.tar.gz \
-#    && tar xaf ${VER}.tar.gz \
-#    && rm ${VER}.tar.gz \
-#    && mv TileDB-${VER} tiledb \
-
+#    && git clone --single-branch --branch ${VER} https://github.com/TileDB-Inc/TileDB.git tiledb \
 
 RUN cd /home/docker \
-    && git clone --single-branch --branch ${VER} https://github.com/TileDB-Inc/TileDB.git tiledb \
+    && wget https://github.com/TileDB-Inc/TileDB/archive/${VER}.tar.gz \
+    && tar xaf ${VER}.tar.gz \
+    && rm ${VER}.tar.gz \
+    && mv TileDB-${VER} tiledb \
     && cd tiledb \
     && mkdir build \
     && cd build \
