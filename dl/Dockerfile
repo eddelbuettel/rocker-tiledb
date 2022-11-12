@@ -15,10 +15,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     catch2 \
     cmake \
     git \
-    libaws-c-common-dev \
-    libaws-c-event-stream-dev \
-    libaws-checksums-dev \
-    libaws-sdk-cpp-only-s3-dev \
+    libaws-c-common-dev=0.4.59-1.debian.2 \
+    libaws-c-event-stream-dev=0.1.6-1.debian.2 \
+    libaws-checksums-dev=0.1.9-1.debian.3 \
+    libaws-sdk-cpp-only-s3-dev=1.8.117-3.debian.2 \
     libcapnp-dev \
     libcurl4-openssl-dev \
     liblz4-dev \
@@ -32,14 +32,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     r-cran-knitr \
     r-cran-matrix \
     r-cran-nanotime \
+    r-cran-palmerpenguins \
     r-cran-rcpp \
-    r-cran-rjson \
+    r-cran-rcppspdlog \
     r-cran-rmarkdown \
-    r-cran-tibble \
+    r-cran-simplermarkdown \
     r-cran-tinytest \
     r-cran-zoo \
     && apt-get clean \
-    && install.r palmerpenguins nycflights13 simplermarkdown
+    && install.r nycflights13
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 
