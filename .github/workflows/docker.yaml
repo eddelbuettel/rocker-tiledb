@@ -13,11 +13,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag: [dl, dev, run, 2.9.0]
+        tag: [dl, dev, run]
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     #- name: Set up QEMU
     #  uses: docker/setup-qemu-action@v1
