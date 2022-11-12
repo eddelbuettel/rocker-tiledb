@@ -17,10 +17,10 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     catch2 \
     cmake \
     git \
-    libaws-c-common-dev \
-    libaws-c-event-stream-dev \
-    libaws-checksums-dev \
-    libaws-sdk-cpp-only-s3-dev \
+    libaws-c-common-dev=0.4.59-1.debian.2 \
+    libaws-c-event-stream-dev=0.1.6-1.debian.2 \
+    libaws-checksums-dev=0.1.9-1.debian.3 \
+    libaws-sdk-cpp-only-s3-dev=1.8.117-3.debian.2 \
     libcapnp-dev \
     libcurl4-openssl-dev \
     liblz4-dev \
@@ -36,6 +36,8 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-nanotime \
     r-cran-rcpp \
     r-cran-rmarkdown \
+    r-cran-simplermarkdown \
+    r-cran-rcppspdlog \
     r-cran-testthat \
     r-cran-tinytest \
     r-cran-zoo \
@@ -51,7 +53,7 @@ RUN cd /home/docker \
     && mkdir build \
     && cd build \
     && export AWSSDK_ROOT_DIR=/usr \
-    && ../bootstrap --prefix=/usr/local --enable-s3 --enable-serialization \
+    && ../bootstrap --prefix=/usr/local --enable-s3 --enable-serialization --disable-werror \
     && make -j 8 \
     && make -C tiledb install \
     && ldconfig \
