@@ -34,16 +34,16 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-knitr \
     r-cran-matrix \
     r-cran-nanotime \
+    r-cran-palmerpenguins \
     r-cran-rcpp \
     r-cran-rmarkdown \
-    r-cran-simplermarkdown \
     r-cran-rcppspdlog \
-    r-cran-testthat \
+    r-cran-simplermarkdown \
     r-cran-tinytest \
     r-cran-zoo \
     valgrind \
     && apt-get clean \
-    && install.r palmerpenguins nycflights13 simplermarkdown
+    && install.r nycflights13
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 
