@@ -37,6 +37,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-rmarkdown \
     r-cran-rcppspdlog \
     r-cran-simplermarkdown \
+    r-cran-spdl \
     r-cran-tibble \
     r-cran-tinytest \
     r-cran-zoo \
