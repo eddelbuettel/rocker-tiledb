@@ -3,7 +3,10 @@
 # Rocker r-base is Debian testing, hence "current" and reasonably complete
 FROM r-base
 
-RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
+#RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
+
+## Unstable currently has python 3.11 which (due to numba) does not work with soma
+RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y --no-install-recommends \
     python3-anndata \
     python3-pandas \
     python3-pybind11 \
