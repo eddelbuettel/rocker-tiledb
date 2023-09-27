@@ -45,7 +45,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     r-cran-zoo \
     valgrind \
     && apt-get clean \
-    && install.r nycflights13
+    && install.r nycflights13 RcppInt64
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 

@@ -44,7 +44,7 @@ RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
     valgrind \
     libv8-dev \
     && apt-get clean \
-    && install.r nycflights13
+    && install.r nycflights13 RcppInt64
 # libv8-dev can go out with minidown
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false

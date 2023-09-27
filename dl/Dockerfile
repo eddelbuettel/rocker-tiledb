@@ -42,7 +42,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     r-cran-tinytest \
     r-cran-zoo \
     && apt-get clean \
-    && install.r nycflights13
+    && install.r nycflights13 RcppInt64
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 
