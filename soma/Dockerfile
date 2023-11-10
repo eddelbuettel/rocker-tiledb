@@ -8,22 +8,25 @@ FROM eddelbuettel/r2u:jammy
 
 ## Unstable currently has python 3.11 which (due to numba) does not work with soma
 RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y --no-install-recommends \
-    python3-anndata \
-    python3-pandas \
-    python3-pybind11 \
-    python3-pytest \
-    python3-scipy \
-    python-is-python3 \
-    python3-pip \
     cmake \
-    git
+    git \
+    python-is-python3 \
+    python3-pip
+
+#    python3-anndata \
+#    python3-pandas \
+#    python3-pybind11 \
+#    python3-pytest \
+#    python3-scipy \
 
 #    python3-tiledb \
 #    python3-typeguard \
 
-RUN git clone https://github.com/single-cell-data/TileDB-SOMA.git && \
-    cd TileDB-SOMA/apis/python/ && \
-    python -m pip install .
+RUN python -m pip install tiledbsoma
+
+#RUN git clone --depth=1 --single-branch --no-tags https://github.com/single-cell-data/TileDB-SOMA.git# && \
+#    cd TileDB-SOMA/apis/python/ && \
+#    python -m pip install .
 
 ## then in container
 ##   mkdir -p testdata
