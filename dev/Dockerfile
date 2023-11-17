@@ -1,61 +1,25 @@
 # Dockerfile for TileDB and R                   Emacs make this a -*- mode: makefile; -*-
 
-# Rocker r-base is Debian testing, hence "current" and reasonably complete
-FROM r-base
+FROM rocker/r2u
 
-LABEL org.label-schema.license="MIT" \
-      org.label-schema.vcs-url="https://github.com/rocker-tiledb/" \
-      org.label-schema.vendor="Local Build, not a Rocker or TileDB product" \
-      maintainer="Dirk Eddelbuettel <edd@debian.org>"
+LABEL org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.source="https://github.com/rocker-tiledb/" \
+      org.opencontainers.image.vendor="Local Build, not a Rocker or TileDB product" \
+      org.opencontainers.image.authors="Dirk Eddelbuettel <edd@debian.org>"
 
-#COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
-#COPY 0001-Add-option-to-use-AWS-SDK-for-S3-from-usr.patch /tmp
-#COPY 0002-s3-string-fix.patch /tmp
-#COPY Renviron.site /etc/R/
-#    libaws-c-common-dev=0.4.59-1.debian.2 \
-#    libaws-c-event-stream-dev=0.1.6-1.debian.2 \
-#    libaws-checksums-dev=0.1.9-1.debian.3 \
-#    libaws-sdk-cpp-only-s3-dev=1.8.117-3.debian.2 \
-#
-#    libcapnp-dev \
-#    libcurl4-openssl-dev \
-#    liblz4-dev \
-#    libspdlog-dev \
-#    libssl-dev \
-#    libzstd-dev \
-
-RUN apt-get update && apt-get install -y -t unstable --no-install-recommends \
-    catch2 \
-    cmake \
-    curl \
-    git \
-    r-cran-bit64 \
-    r-cran-bookdown \
-    r-cran-curl \
-    r-cran-data.table \
-    r-cran-knitr \
-    r-cran-matrix \
-    r-cran-nanotime \
-    r-cran-palmerpenguins \
-    r-cran-rcpp \
-    r-cran-rmarkdown \
-    r-cran-rcppspdlog \
-    r-cran-simplermarkdown \
-    r-cran-spdl \
-    r-cran-tibble \
-    r-cran-tinytest \
-    r-cran-zoo \
-    valgrind \
-    && apt-get clean \
-    && install.r nycflights13 RcppInt64
+# Note the explicit 'slower path' for bspm to get Suggests to
+#options(bspm.version.check=TRUE);
+RUN apt update \
+    && apt upgrade -y \
+    && apt install -y --no-install-recommends cmake curl git valgrind \
+    && Rscript -e 'install.packages("tiledb", dependencies=TRUE)' \
+    apt-get clean
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
-
-#   && export AWSSDK_ROOT_DIR=/usr \
-#   && ../bootstrap --prefix=/usr/local --enable-s3 --enable-serialization --disable-werror \
+ENV VER dev
 
 RUN cd /home/docker \
-    && git clone --single-branch --branch dev https://github.com/TileDB-Inc/TileDB.git tiledb \
+    && git clone --single-branch --branch ${VER} https://github.com/TileDB-Inc/TileDB.git tiledb \
     && cd tiledb \
     && mkdir build \
     && cd build \
