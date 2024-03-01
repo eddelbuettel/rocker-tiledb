@@ -13,7 +13,7 @@ RUN apt update \
     && apt upgrade -y \
     && apt install -y --no-install-recommends cmake curl git valgrind \
     && Rscript -e 'install.packages("tiledb", dependencies=TRUE)' \
-    apt-get clean
+    && apt-get clean
 
 ENV _R_CHECK_FORCE_SUGGESTS_ false
 ENV VER dev
