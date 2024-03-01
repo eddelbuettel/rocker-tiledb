@@ -1,6 +1,7 @@
 # Dockerfile for TileDB and R                   Emacs make this a -*- mode: makefile; -*-
 
 # Rocker r-base is Debian testing, hence "current" and reasonably complete
+# edd 2024-02-29 need '-t unstable' below while some library transitions happen
 FROM r-base
 
 LABEL org.label-schema.license="MIT" \
@@ -11,7 +12,7 @@ LABEL org.label-schema.license="MIT" \
 COPY eddelbuettel-ppa.list /etc/apt/sources.list.d
 #COPY Renviron.site /etc/R/
 #-t unstable
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -t unstable -y --no-install-recommends \
     catch2 \
     cmake \
     git \
@@ -31,6 +32,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     r-cran-data.table \
     r-cran-knitr \
     r-cran-matrix \
+    r-cran-nanoarrow \
     r-cran-nanotime \
     r-cran-palmerpenguins \
     r-cran-rcpp \
