@@ -1,0 +1,124 @@
+FROM ubuntu:20.04
+
+WORKDIR /tmp
+
+ENV AWS_EC2_METADATA_DISABLED true
+
+# Update and install required packages
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+  && apt-get install -y ca-certificates wget gpg \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+RUN apt-get update \
+  && rm /usr/share/keyrings/kitware-archive-keyring.gpg \
+  && apt-get install kitware-archive-keyring \
+  && rm -rf /var/lib/apt/lists/*
+
+# Setup kitware repo
+RUN apt-get update && \
+    # Base packages required to access R repository
+    apt-get install -y \
+      software-properties-common \
+      libssl-dev \
+      libcurl4-openssl-dev \
+      libeigen3-dev \
+      libxml2-dev \
+      git \
+      cmake \
+      g++ \
+      build-essential \
+      autoconf \
+      libgeos-dev && \
+    # Set up access to R repository
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
+    add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' && \
+    # Install from R repository
+    apt-get update && \
+    apt-get install -y \
+      r-base-core \
+      r-recommended \
+      r-base-dev && \
+    # Cleanup to avoid image bloat.
+    rm -rf /var/lib/apt/lists/*
+
+# Install required R packages
+RUN Rscript -e 'install.packages(c("RcppSpdlog", "jsonlite", "base64enc", "R6", "httr", "mmap", "remotes"))'
+# Installing arrow separately seems to help avoid an OOM during docker-build.
+# Setting $ARROW_R_DEV helps reveal more info about build failures -- during compile-from-source.
+# There's a $NOT_CRAN one can use to get precompiled binaries, but it appears to work only
+# on Mac and Windows. If we see more build-from-source OOMs for arrow package installs we
+# may need to do more research on ways to get precompiled binaries for Ubuntu.
+ENV ARROW_R_DEV=true
+RUN Rscript -e 'install.packages("arrow")'
+
+# Local packages needed later
+COPY \
+  RcppCCTZ_0.2.9.tar.gz \
+  RcppDate_0.0.3.tar.gz \
+  zoo_1.8-9.tar.gz \
+  nanotime_0.3.3.tar.gz \
+  tiledbudf_0.0.3.tar.gz \
+  tiledbinotify_0.0.4.tar.gz \
+  /tmp/
+
+# Install TileDB-specific packages required by entrypoint script
+RUN cd /tmp && \
+  R CMD INSTALL RcppCCTZ_0.2.9.tar.gz && \
+  R CMD INSTALL RcppDate_0.0.3.tar.gz && \
+  R CMD INSTALL zoo_1.8-9.tar.gz && \
+  R CMD INSTALL nanotime_0.3.3.tar.gz && \
+  Rscript -e 'remotes::install_github("TileDB-Inc/TileDB-R@0.25.0")' && \
+  R CMD INSTALL tiledbinotify_0.0.4.tar.gz && \
+  R CMD INSTALL tiledbudf_0.0.3.tar.gz && \
+  rm *.tar.gz
+
+# Install SingleCell Packages
+RUN Rscript -e 'setRepositories(ind = 1:3); install.packages(c("SeuratObject", "Seurat", "Signac"))'
+
+# ----------------------------------------------------------------
+# SeuratObject needs to be reinstalled from source until approximately 2023-11-17:
+# https://github.com/TileDB-Inc/TileDB-Cloud-JupyterHub/pull/562#issuecomment-1805058259
+
+# RUN Rscript -e 'install.packages("SeuratObject", type = "source")'
+# https://app.shortcut.com/tiledb-inc/story/37046
+
+RUN Rscript -e 'remotes::install_github("satijalab/seurat@v4.4.0", upgrade="never");'
+RUN Rscript -e 'remotes::install_github("mojaveazure/seurat-object@v4.1.4", upgrade="never");'
+
+# Legacy main-old
+RUN Rscript -e " \
+    .libPaths('/opt/tiledbsoma-0.1-R'); remotes::install_github('single-cell-data/TileDB-SOMA@0.1.22', subdir='apis/r', upgrade='never');"
+
+RUN Rscript -e " \
+    remotes::install_github('single-cell-data/TileDB-SOMA@1.10.0', subdir='apis/r', upgrade='never');"
+
+# See also:
+# https://chanzuckerberg.github.io/cellxgene-census/cellxgene_census_docsite_installation.html
+RUN Rscript -e ' \
+    install.packages("cellxgene.census", repos=c("https://chanzuckerberg.r-universe.dev", "https://cloud.r-project.org"))'
+
+RUN Rscript -e " \
+    remotes::install_github('TileDB-Inc/TileDB-Cloud-R@v0.0.11', upgrade='never');"
+
+# Install BioConductor Packages
+RUN Rscript -e 'install.packages("BiocManager")' && \
+  Rscript -e 'BiocManager::install("SingleCellExperiment")'
+
+# Copy entrypoint files
+COPY r_generic_udf_entry.r /opt/
+COPY r_array_udf_entry.r /opt/
+
+RUN ln -s /opt/r_array_udf_entry.r /usr/local/bin/udf-entry
+
+RUN adduser --system --uid 20000 --group udf
+USER udf
+WORKDIR /home/udf
+
+# Set up entrypoint.
+# This actually allows us to run both generic and (WIP) array UDFs.
+# TODO: merge the two files into one.
+ENTRYPOINT ["udf-entry"]

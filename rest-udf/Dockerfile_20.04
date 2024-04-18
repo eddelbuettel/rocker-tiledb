@@ -1,0 +1,43 @@
+FROM rocker/r2u:20.04
+RUN Rscript -e 'install.packages(c(\
+    "R6",                       \
+    "RcppCCTZ",                 \
+    "RcppDate",                 \
+    "RcppSpdlog",               \
+    "Seurat",                   \
+    "SeuratObject",             \
+    "Signac",                   \
+    "SingleCellExperiment",     \
+    "arrow",                    \
+    "assertthat",               \
+    "base64enc",                \
+    "bit64",                    \
+    "cpp11",                    \
+    "glue",                     \
+    "httr",                     \
+    "jsonlite",                 \
+    "mmap",                     \                           
+    "nanoarrow",                \
+    "nanotime",                 \
+    "remotes",                  \
+    "rlang",                    \
+    "tidyselect",               \
+    "vctrs",                    \
+    "zoo"                       ))'
+RUN echo 'deb [trusted=yes] https://apt.kitware.com/ubuntu/ focal-rc main' > /etc/apt/sources.list.d/kitware.list && \
+    apt update -qqq && \
+    apt install -y cmake git curl
+RUN Rscript -e 'remotes::install_github("TileDB-Inc/TileDB-R", "0.26.0")'
+COPY tiledbudf_0.0.3.tar.gz tiledbinotify_0.0.4.tar.gz /tmp/
+RUN cd /tmp && \
+    R CMD INSTALL tiledbinotify_0.0.4.tar.gz && \
+    R CMD INSTALL tiledbudf_0.0.3.tar.gz
+RUN Rscript -e 'remotes::install_github("satijalab/seurat", "v4.4.0", upgrade="never"); \
+                remotes::install_github("mojaveazure/seurat-object", "v4.1.4", upgrade="never")'
+RUN mkdir /opt/tiledbsoma-0.1-R && \
+    Rscript -e "remotes::install_github('single-cell-data/TileDB-SOMA', '0.1.22', subdir='apis/r', lib='/opt/tiledbsoma-0.1-R', upgrade='never')"
+    
+RUN Rscript -e "remotes::install_github('single-cell-data/TileDB-SOMA', '1.10.0', subdir='apis/r', upgrade='never')"
+###RUN Rscript -e 'install.packages("cellxgene.census", repos=c("https://chanzuckerberg.r-universe.dev"))'
+RUN Rscript -e 'remotes::install_github("chanzuckerberg/cellxgene-census", "v1.13.0", subdir="api/r/cellxgene.census")'
+RUN Rscript -e "remotes::install_github('TileDB-Inc/TileDB-Cloud-R', 'v0.0.11', upgrade='never')"
