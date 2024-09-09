@@ -15,8 +15,8 @@ RUN apt update \
     && Rscript -e 'install.packages("tiledb", dependencies=TRUE)' \
     && apt-get clean
 
-ENV _R_CHECK_FORCE_SUGGESTS_ false
-ENV VER dev
+ENV _R_CHECK_FORCE_SUGGESTS_=false
+ENV VER=dev
 
 RUN cd /home/docker \
     && git clone --single-branch --branch ${VER} https://github.com/TileDB-Inc/TileDB.git tiledb \
